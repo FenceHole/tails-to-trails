@@ -1,0 +1,40 @@
+{
+  "name": "tails-to-trails",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Website for Tails to Trails, LLC: dog walking, pet sitting, boarding, cat visits and yard clean up in Pittsburgh, PA.",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && node scripts/prerender.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.102.8",
+    "lucide-react": "0.545.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "wouter": "3.13.0"
+  },
+  "devDependencies": {
+    "@fontsource-variable/bricolage-grotesque": "5.3.0",
+    "@fontsource-variable/figtree": "5.3.0",
+    "@tailwindcss/typography": "0.5.20",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/node": "25.9.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "tailwindcss": "4.3.3",
+    "tw-animate-css": "1.4.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.6"
+  },
+  "overrides": {
+    "rollup": "4.63.1"
+  }
+}
