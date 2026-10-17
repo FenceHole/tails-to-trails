@@ -1,0 +1,13 @@
+{
+  "name": "Tails to Trails",
+  "short_name": "Tails to Trails",
+  "description": "Dog walking, pet sitting, in-home boarding, cat sitting and yard clean up in Pittsburgh, PA.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#FFF4D1",
+  "theme_color": "#FDB515",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/logo-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
