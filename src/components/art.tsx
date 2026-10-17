@@ -1,4 +1,4 @@
-import type { ServicePageKey } from '@/content/site';
+import type { ContentPageKey } from '@/content/site';
 
 const INK = 'hsl(258 22% 10%)';
 const BRIDGE = 'hsl(43 98% 54%)';
@@ -307,7 +307,7 @@ export function Hills({ className = '', fill = RIVER }: { className?: string; fi
   );
 }
 
-export function ServiceArt({ k, className = '' }: { k: ServicePageKey; className?: string }) {
+export function ServiceArt({ k, className = '' }: { k: ContentPageKey; className?: string }) {
   switch (k) {
     case 'dogWalking':
       return <WalkingDog className={className} color="tan" />;
@@ -333,6 +333,20 @@ export function ServiceArt({ k, className = '' }: { k: ServicePageKey; className
         <div className={`flex items-end ${className}`}>
           <Rake className="w-1/2" />
           <SittingDog className="w-1/2 -ml-4" color="rust" />
+        </div>
+      );
+    case 'petSitting':
+      return (
+        <div className={`flex items-end ${className}`}>
+          <SittingCat className="w-1/2" />
+          <SittingDog className="w-1/2 -ml-2" color="cream" />
+        </div>
+      );
+    case 'meetGreet':
+      return (
+        <div className={`flex items-end ${className}`}>
+          <SittingDog className="w-1/2" color="tan" />
+          <SittingCat className="w-1/2 -ml-2" />
         </div>
       );
   }

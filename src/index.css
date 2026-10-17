@@ -1,5 +1,6 @@
 @import '@fontsource-variable/bricolage-grotesque';
 @import '@fontsource-variable/figtree';
+@import '@fontsource/marck-script/latin-400.css';
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -53,11 +54,22 @@
   --color-ink: hsl(var(--ink));
   --color-river: hsl(var(--river));
   --color-tomato: hsl(var(--tomato));
+  --color-plum: hsl(var(--plum));
+  --color-mint: hsl(var(--mint));
+  --color-meadow: hsl(var(--meadow));
+  --color-fern: hsl(var(--fern));
+  --color-pine: hsl(var(--pine));
+  --color-spruce: hsl(var(--spruce));
+  --color-plank: hsl(var(--plank));
+  --color-plank-dark: hsl(var(--plank-dark));
+  --color-post: hsl(var(--post));
+  --color-charcoal: hsl(var(--charcoal));
 
   --font-sans: var(--app-font-sans);
   --font-serif: var(--app-font-serif);
   --font-mono: var(--app-font-mono);
   --font-display: var(--app-font-display);
+  --font-script: var(--app-font-script);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -73,6 +85,17 @@
   --ink: 258 22% 10%; /* ink / steel night */
   --river: 188 84% 24%; /* three-rivers teal */
   --tomato: 7 78% 46%; /* incline-car red */
+  /* The flyer's trailhead palette */
+  --plum: 281 52% 36%; /* script purple */
+  --mint: 140 33% 93%; /* flyer sky */
+  --meadow: 142 62% 63%; /* far hill */
+  --fern: 140 46% 40%; /* near hill */
+  --pine: 143 58% 28%; /* tree green */
+  --spruce: 150 62% 20%; /* deepest green */
+  --plank: 28 24% 72%; /* sign wood, light */
+  --plank-dark: 30 24% 58%; /* sign wood, shaded */
+  --post: 22 34% 29%; /* signpost brown */
+  --charcoal: 0 0% 24%; /* silhouettes */
 
   --background: 45 100% 93%;
   --foreground: 258 22% 10%;
@@ -111,6 +134,7 @@
 
   --app-font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
   --app-font-display: 'Bricolage Grotesque Variable', 'Figtree Variable', ui-sans-serif, sans-serif;
+  --app-font-script: 'Marck Script', 'Snell Roundhand', 'Apple Chancery', cursive;
   --app-font-serif: Georgia, serif;
   --app-font-mono: ui-monospace, Menlo, monospace;
   --radius: 1rem;
@@ -498,5 +522,206 @@ details[open] .faq-plus {
   }
   .marquee-dup {
     display: none;
+  }
+}
+
+/* ---------- Trailhead scene (from the flyer) ---------- */
+@layer components {
+  /* Pointer parallax: the hero sets --mx / --my in -1..1; far layers move less. */
+  .px-layer {
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: transform;
+  }
+  .px-1 {
+    transform: translate3d(calc(var(--mx, 0) * -7px), calc(var(--my, 0) * -3px), 0);
+  }
+  .px-2 {
+    transform: translate3d(calc(var(--mx, 0) * -14px), calc(var(--my, 0) * -5px), 0);
+  }
+  .px-3 {
+    transform: translate3d(calc(var(--mx, 0) * -22px), calc(var(--my, 0) * -8px), 0);
+  }
+  .px-sun {
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transform: translate3d(calc(var(--mx, 0) * 16px), calc(var(--my, 0) * 10px), 0);
+  }
+  .px-cloud {
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transform: translate3d(calc(var(--mx, 0) * 28px), calc(var(--my, 0) * 6px), 0);
+  }
+
+  .sun-rays {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: spin 46s linear infinite;
+  }
+  .ponytail {
+    transform-box: fill-box;
+    transform-origin: 85% 12%;
+    animation: ponysway 1.6s ease-in-out infinite alternate;
+  }
+  .dog-tail-sil {
+    transform-box: fill-box;
+    transform-origin: 100% 100%;
+    animation: wag 1.1s ease-in-out infinite;
+  }
+  .happy .dog-tail-sil {
+    animation-duration: 0.28s;
+  }
+  .cat-legs-a,
+  .cat-legs-b {
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
+  }
+  .running .cat-legs-a {
+    animation: legA 0.12s ease-in-out infinite alternate;
+  }
+  .running .cat-legs-b {
+    animation: legB 0.12s ease-in-out infinite alternate;
+  }
+  .cat-blink {
+    transform-box: fill-box;
+    transform-origin: 50% 55%;
+    animation: blink 6s infinite;
+  }
+  .pupil {
+    transition: transform 0.09s linear;
+  }
+  .ducked .peek-cat {
+    transform: translateY(70%);
+  }
+  .peek-cat {
+    transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+
+  /* Wooden signs: arrow-shaped boards with an ink outline and a hard shadow. */
+  .sign {
+    --tip: 26px;
+    filter: drop-shadow(4px 5px 0 hsl(var(--ink) / 0.92));
+  }
+  .sign-edge {
+    display: block;
+    padding: 3px;
+    background: hsl(var(--ink));
+  }
+  .sign-face {
+    display: flex;
+    align-items: center;
+    min-height: 4.4rem;
+    padding: 0.55rem 1rem;
+    background-color: hsl(var(--plank));
+    background-image:
+      repeating-linear-gradient(180deg, transparent 0 9px, hsl(var(--plank-dark) / 0.28) 9px 10px),
+      linear-gradient(180deg, hsl(0 0% 100% / 0.22), transparent 40%);
+  }
+  .sign-yellow .sign-face {
+    background-color: hsl(var(--bridge));
+    background-image: linear-gradient(180deg, hsl(0 0% 100% / 0.3), transparent 45%);
+  }
+  .sign-left .sign-edge {
+    clip-path: polygon(0 50%, var(--tip) 0, 100% 0, 100% 100%, var(--tip) 100%);
+  }
+  .sign-left .sign-face {
+    clip-path: polygon(0.7px 50%, calc(var(--tip) - 1.6px) 0, 100% 0, 100% 100%, calc(var(--tip) - 1.6px) 100%);
+    padding-left: calc(var(--tip) + 0.4rem);
+  }
+  .sign-right .sign-edge {
+    clip-path: polygon(0 0, calc(100% - var(--tip)) 0, 100% 50%, calc(100% - var(--tip)) 100%, 0 100%);
+  }
+  .sign-right .sign-face {
+    clip-path: polygon(0 0, calc(100% - var(--tip) + 1.6px) 0, calc(100% - 0.7px) 50%, calc(100% - var(--tip) + 1.6px) 100%, 0 100%);
+    padding-right: calc(var(--tip) + 0.4rem);
+  }
+  .sign-link:hover .sign-face,
+  .sign-link:focus-visible .sign-face {
+    filter: brightness(1.06) saturate(1.1);
+  }
+  .sign-idle {
+    animation: signidle 5.5s ease-in-out infinite alternate;
+    transform-origin: 50% 50%;
+  }
+  .sign-idle-b {
+    animation-duration: 6.8s;
+    animation-delay: -2s;
+  }
+  .sign-idle-c {
+    animation-duration: 4.9s;
+    animation-delay: -3.4s;
+  }
+  .post-wood {
+    background-image: repeating-linear-gradient(90deg, transparent 0 5px, hsl(0 0% 0% / 0.12) 5px 6px);
+  }
+
+  .hop {
+    animation: hop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+  .cat-dash {
+    animation: catdash 1.9s cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  .bubble {
+    animation: pop-in 0.3s cubic-bezier(0.3, 1.8, 0.5, 1);
+  }
+  .ball-arc {
+    animation: ballarc 0.7s ease-out;
+  }
+  .meadow-field {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ponysway {
+  from {
+    transform: rotate(-9deg);
+  }
+  to {
+    transform: rotate(8deg);
+  }
+}
+@keyframes signidle {
+  from {
+    transform: rotate(-0.9deg);
+  }
+  to {
+    transform: rotate(0.9deg);
+  }
+}
+@keyframes hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-16px) rotate(-2deg);
+  }
+}
+@keyframes catdash {
+  0% {
+    transform: translateX(0);
+  }
+  47% {
+    transform: translateX(110vw);
+  }
+  47.1% {
+    transform: translateX(-110vw);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes ballarc {
+  0% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-70px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }

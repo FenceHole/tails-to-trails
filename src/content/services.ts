@@ -1,13 +1,13 @@
-import type { ServicePageContent, ServicePageKey } from './site';
+import type { ContentPageKey, ServicePageContent } from './site';
 
 /**
- * Copy for the five service landing pages. Every claim here comes from the
+ * Copy for the service landing pages and the two overview pages (pet sitting, meet & greet). Every claim here comes from the
  * owner's published site or is general pet-care knowledge; nothing about
  * neighborhoods, reviews, hours or credentials is asserted.
  *
  * Voice: plain, specific, a little local. No em dashes, no filler.
  */
-export const SERVICE_PAGES: Record<ServicePageKey, ServicePageContent> = {
+export const SERVICE_PAGES: Record<ContentPageKey, ServicePageContent> = {
   dogWalking: {
     key: 'dogWalking',
     intro:
@@ -106,7 +106,7 @@ export const SERVICE_PAGES: Record<ServicePageKey, ServicePageContent> = {
         a: 'Call or text 412-709-0057 to set up a free meet & greet. You, your dog and Jennifer meet first, so everyone knows what to expect before the first walk.',
       },
     ],
-    related: ['packWalks', 'boarding', 'yardCleanup'],
+    related: ['packWalks', 'boarding', 'yardCleanup', 'meetGreet', 'prices'],
     cta: {
       heading: "Let's find your dog's walk",
       body: "Text or call Jennifer to set up a free meet & greet. Tell her about your dog and when you'd like walks.",
@@ -211,7 +211,7 @@ export const SERVICE_PAGES: Record<ServicePageKey, ServicePageContent> = {
         a: 'Yes. You get photo and message updates, so you always know how your dog is doing.',
       },
     ],
-    related: ['dogWalking', 'boarding', 'yardCleanup'],
+    related: ['dogWalking', 'boarding', 'yardCleanup', 'meetGreet', 'prices'],
     cta: {
       heading: 'Ready to join the pack?',
       body: 'Text or call to set up a free meet & greet and find out if your dog is a pack-walk dog.',
@@ -332,7 +332,7 @@ export const SERVICE_PAGES: Record<ServicePageKey, ServicePageContent> = {
         a: "Call or text 412-709-0057 with your dates and your pet's name. A free meet & greet comes first.",
       },
     ],
-    related: ['catSitting', 'dogWalking', 'packWalks'],
+    related: ['catSitting', 'dogWalking', 'packWalks', 'meetGreet', 'prices'],
     cta: {
       heading: 'Heading out of town?',
       body: 'Text or call with your dates. A free meet & greet comes first, so your dog and Jennifer can get acquainted before the stay.',
@@ -437,7 +437,7 @@ export const SERVICE_PAGES: Record<ServicePageKey, ServicePageContent> = {
         a: 'Yes. Overnight cat boarding is $20 a night. Text or call to ask how it works for your cat.',
       },
     ],
-    related: ['boarding', 'dogWalking', 'yardCleanup'],
+    related: ['boarding', 'dogWalking', 'yardCleanup', 'meetGreet', 'prices'],
     cta: {
       heading: 'Your cat, at home, in good hands',
       body: "Text or call to set up a free meet & greet. Tell Jennifer about your cat's routine, medications and favorite hiding spots.",
@@ -529,7 +529,7 @@ export const SERVICE_PAGES: Record<ServicePageKey, ServicePageContent> = {
         a: 'Call or text 412-709-0057 with your neighborhood and a little about your yard, and Jennifer will let you know the next step.',
       },
     ],
-    related: ['dogWalking', 'boarding', 'packWalks'],
+    related: ['dogWalking', 'boarding', 'packWalks', 'meetGreet', 'prices'],
     cta: {
       heading: 'Let Jennifer redd up the yard',
       body: 'Text or call to get yard clean up on the calendar. It is $30 a visit.',
@@ -541,6 +541,216 @@ export const SERVICE_PAGES: Record<ServicePageKey, ServicePageContent> = {
       name: 'Yard Clean Up in Pittsburgh, PA',
       description:
         'Regular pet waste and yard waste removal in Pittsburgh, PA for $30 a visit.',
+    },
+  },
+
+  petSitting: {
+    key: 'petSitting',
+    intro:
+      "Pet sitting in Pittsburgh with one person doing the work. Cats get 30-minute visits at home for $15, dogs and cats can stay overnight in Jennifer's home for $30 and $20 a night, and you get photos and messages either way.",
+    prices: ['catVisit', 'dogBoarding', 'catBoarding'],
+    headings: {
+      included: 'What pet sitting with Jennifer includes',
+      steps: 'How pet sitting works',
+      goodFor: 'Who needs a pet sitter',
+      local: 'Finding a pet sitter in Pittsburgh: what to ask first',
+      faq: 'Pet sitting in Pittsburgh: your questions answered',
+    },
+    included: [
+      {
+        title: 'Cat sitting visits at your home',
+        body: 'A 30-minute visit for $15: feeding, fresh water, litter box care, playtime and medication if your cat needs it. Your cat stays on their own turf.',
+      },
+      {
+        title: 'Dog and cat boarding in a real home',
+        body: 'Overnight stays are $30 a night for dogs and $20 a night for cats, in a real home and not a kennel.',
+      },
+      {
+        title: 'Medication, special diets and senior pets',
+        body: 'Jennifer is experienced with medications, special diets and senior pet care routines.',
+      },
+      {
+        title: 'Photo and message updates',
+        body: 'Regular photos and messages, so you always know your pet is happy and safe.',
+      },
+      {
+        title: 'A free meet & greet before anything is booked',
+        body: 'You, your pet and Jennifer meet first. No pressure, no obligation.',
+      },
+    ],
+    steps: [
+      {
+        title: 'Call or text with your dates',
+        body: 'Tell Jennifer who needs care, how old they are and when you will be away.',
+      },
+      {
+        title: 'Meet & greet',
+        body: 'A free introduction to go over feeding, routines, medication and quirks.',
+      },
+      {
+        title: 'Pick the right fit',
+        body: 'Cat visits at home, or an overnight stay in Jennifer\'s home. Jennifer will talk you through which one suits your pet.',
+      },
+      {
+        title: 'Relax while you are away',
+        body: 'You hear from Jennifer along the way, with photos when there is something worth showing.',
+      },
+    ],
+    goodFor: [
+      'Cats who would rather stay in their own home',
+      'Dogs who do better in a calm house than in a kennel',
+      'Pets on medication or special diets',
+      'Anyone traveling for a weekend, a week or a work trip',
+    ],
+    localNotes: [
+      {
+        title: 'Ask who will actually show up',
+        body: 'With Tails to Trails, the person you meet is the person who looks after your pet. Jennifer is a one-person business, so there is no handoff to a stranger.',
+      },
+      {
+        title: 'Give your dates early',
+        body: 'Holiday weekends and school breaks book up for every sitter. Text your dates as soon as you know them.',
+      },
+      {
+        title: 'Write down the routine',
+        body: 'Feeding amounts, medication times, vet contact and the spots your pet likes to hide are all worth sharing at the meet & greet.',
+      },
+    ],
+    faqs: [
+      {
+        q: 'How much does a pet sitter cost in Pittsburgh?',
+        a: 'At Tails to Trails, a 30-minute cat sitting visit is $15, dog boarding is $30 a night and cat boarding is $20 a night.',
+      },
+      {
+        q: 'Do you sit dogs at my house?',
+        a: "Overnight dog care at Tails to Trails is in-home boarding at Jennifer's home, and daytime dog care is walks. Call or text 412-709-0057 if you have a different arrangement in mind.",
+      },
+      {
+        q: 'Can you give my pet medication?',
+        a: 'Yes. Jennifer is experienced with medications, special diets and senior pet care, including oral medications and eye drops.',
+      },
+      {
+        q: 'Will I get updates while I am away?',
+        a: 'Yes. You get regular photos and messages, so you always know your pet is happy and safe.',
+      },
+      {
+        q: 'Is Tails to Trails insured?',
+        a: 'Yes. Tails to Trails, LLC is a trusted and insured pet care business in Pittsburgh, PA.',
+      },
+    ],
+    related: ['catSitting', 'boarding', 'dogWalking', 'meetGreet', 'prices'],
+    cta: {
+      heading: 'Need a pet sitter?',
+      body: 'Text or call with your dates and your pet\'s name. A free meet & greet comes first.',
+      smsBody:
+        "Hi Jennifer! I found Tails to Trails online and I'm looking for a pet sitter. Could we set up a free meet & greet?",
+    },
+    schema: {
+      serviceType: 'Pet sitting',
+      name: 'Pet Sitting in Pittsburgh, PA',
+      description:
+        'Pet sitting in Pittsburgh, PA: 30-minute cat sitting visits for $15, in-home dog boarding for $30 a night and cat boarding for $20 a night.',
+    },
+  },
+
+  meetGreet: {
+    key: 'meetGreet',
+    intro:
+      "Every Tails to Trails relationship starts with a free meet & greet. You, your pet and Jennifer get acquainted before anything is booked, so you can see for yourself whether it is a good fit. Call or text 412-709-0057 to set one up.",
+    prices: [],
+    headings: {
+      included: 'What happens at the free meet & greet',
+      steps: 'How to set up your meet & greet',
+      goodFor: 'Who the meet & greet is for',
+      local: 'Getting ready for your meet & greet',
+      faq: 'Free meet & greet: your questions answered',
+    },
+    included: [
+      {
+        title: 'You and your pet meet Jennifer',
+        body: 'A no-pressure introduction, so your pet is not meeting a stranger on day one.',
+      },
+      {
+        title: 'Routines, quirks and medications',
+        body: 'You go over feeding, leash habits, medication, scheduling and anything else Jennifer should know.',
+      },
+      {
+        title: 'A check that it is the right fit',
+        body: "In Jennifer's words, the goal is to make sure \"we're the right fit for your pet.\"",
+      },
+      {
+        title: 'Zero cost',
+        body: 'The meet & greet is free, and it does not commit you to booking.',
+      },
+    ],
+    steps: [
+      {
+        title: 'Call or text',
+        body: 'Tell Jennifer about your dog, your cat or your yard, and when you are free to meet.',
+      },
+      {
+        title: 'Pick a time',
+        body: 'Jennifer offers flexible scheduling, including early mornings, evenings and weekends.',
+      },
+      {
+        title: 'Meet and talk it through',
+        body: 'Cover the routine and ask whatever you like. Pets are welcome to sniff and judge.',
+      },
+      {
+        title: 'Decide when you are ready',
+        body: 'If it feels right, you set up walks, a sitting visit or a boarding stay. If not, no hard feelings.',
+      },
+    ],
+    goodFor: [
+      'First-time clients with a nervous or shy pet',
+      'Dogs who need a walker they can trust',
+      'Cat owners picking a sitter before a trip',
+      'Anyone who wants to meet the person before handing over a key',
+    ],
+    localNotes: [
+      {
+        title: 'Bring your questions',
+        body: 'Prices, schedules, medication and what a typical update looks like are all fair game.',
+      },
+      {
+        title: 'Have the routine handy',
+        body: 'Feeding times, medication and favorite toys are the details Jennifer will ask about.',
+      },
+      {
+        title: 'Tell Jennifer your neighborhood',
+        body: 'Text or call 412-709-0057 with your neighborhood or ZIP code and Jennifer will let you know if she can help.',
+      },
+    ],
+    faqs: [
+      {
+        q: 'What happens at the free meet & greet?',
+        a: "You, your pet and Jennifer meet before anything is booked. You go over routines, quirks, medications and scheduling, and make sure it's a good fit. It's a free, no-pressure introduction.",
+      },
+      {
+        q: 'Does the meet & greet cost anything?',
+        a: 'No. The meet & greet is free.',
+      },
+      {
+        q: 'Do I have to book after the meet & greet?',
+        a: 'No. It is a no-pressure introduction to make sure you and Jennifer are the right fit for your pet.',
+      },
+      {
+        q: 'How do I schedule a meet & greet?',
+        a: 'Call or text 412-709-0057. Jennifer works around your schedule, including early mornings, evenings and weekends.',
+      },
+    ],
+    related: ['dogWalking', 'petSitting', 'boarding', 'prices'],
+    cta: {
+      heading: 'Ready to say hello?',
+      body: 'Call or text Jennifer to set up your free meet & greet. No forms, just a real conversation.',
+      smsBody:
+        "Hi Jennifer! I found Tails to Trails online and I'd like to set up a free meet & greet.",
+    },
+    schema: {
+      serviceType: 'Pet care consultation',
+      name: 'Free Meet & Greet for Dog Walking and Pet Sitting in Pittsburgh, PA',
+      description:
+        'A free, no-pressure introduction between you, your pet and Jennifer before any dog walking, pet sitting or boarding is booked.',
     },
   },
 };

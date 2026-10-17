@@ -1,3 +1,4 @@
+import { GUIDE_FAQS, PRICES_FAQS } from '@/content/extra-pages';
 import { HOME_FAQS } from '@/content/faqs';
 import { SERVICE_PAGES } from '@/content/services';
 import {
@@ -7,6 +8,7 @@ import {
   SITE_URL,
   pageUrl,
   type FaqItem,
+  type ContentPageKey,
   type PageKey,
   type PriceKey,
 } from '@/content/site';
@@ -64,6 +66,19 @@ function businessNode() {
       'Dog walking, pack walks, in-home dog and cat boarding, cat sitting and yard clean up in Pittsburgh, PA, from Jennifer at Tails to Trails.',
     url: `${SITE_URL}/`,
     telephone: BUSINESS.phoneE164,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: BUSINESS.phoneE164,
+      contactType: 'customer service',
+      availableLanguage: 'English',
+    },
+    knowsAbout: [
+      'Dog walking',
+      'Pet sitting',
+      'Cat sitting',
+      'Dog boarding',
+      'Pet waste removal',
+    ],
     image: OG_IMAGE_URL,
     logo: LOGO_URL,
     priceRange: `$${lowest}-$${highest}`,
@@ -136,25 +151,65 @@ export function buildJsonLd(key: PageKey): string {
     webPage,
   ];
 
+  const breadcrumb = () => {
+    webPage.breadcrumb = { '@id': `${url}#breadcrumb` };
+    return {
+      '@type': 'BreadcrumbList',
+      '@id': `${url}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: PAGES.home.navLabel,
+          item: `${SITE_URL}/`,
+        },
+        { '@type': 'ListItem', position: 2, name: page.navLabel, item: url },
+      ],
+    };
+  };
+
   if (key === 'home') {
     graph.push(faqNode(url, HOME_FAQS));
-  } else {
-    const service = SERVICE_PAGES[key];
-    webPage.breadcrumb = { '@id': `${url}#breadcrumb` };
+  } else if (key === 'prices') {
+    const allPrices = Object.keys(PRICING) as PriceKey[];
     graph.push(
+      breadcrumb(),
       {
-        '@type': 'BreadcrumbList',
-        '@id': `${url}#breadcrumb`,
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: PAGES.home.navLabel,
-            item: `${SITE_URL}/`,
+        '@type': 'OfferCatalog',
+        '@id': `${url}#prices`,
+        name: 'Tails to Trails prices in Pittsburgh, PA',
+        url,
+        itemListElement: allPrices.map((k) => ({
+          ...offerFor(k),
+          itemOffered: {
+            '@type': 'Service',
+            name: `${PRICING[k].name} in ${BUSINESS.region}`,
+            provider: { '@id': BUSINESS_ID },
+            url: pageUrl(PRICING[k].page),
           },
-          { '@type': 'ListItem', position: 2, name: page.navLabel, item: url },
-        ],
+        })),
       },
+      faqNode(url, PRICES_FAQS),
+    );
+  } else if (key === 'guide') {
+    webPage['@type'] = ['WebPage', 'CollectionPage'];
+    graph.push(breadcrumb(), faqNode(url, GUIDE_FAQS));
+  } else {
+    const service = SERVICE_PAGES[key as ContentPageKey];
+    const offers =
+      key === 'meetGreet'
+        ? [
+            {
+              '@type': 'Offer',
+              name: 'Free meet & greet',
+              price: 0,
+              priceCurrency: 'USD',
+              url,
+            },
+          ]
+        : service.prices.map(offerFor);
+    graph.push(
+      breadcrumb(),
       {
         '@type': 'Service',
         '@id': `${url}#service`,
@@ -164,7 +219,7 @@ export function buildJsonLd(key: PageKey): string {
         url,
         provider: { '@id': BUSINESS_ID },
         areaServed: CITY,
-        offers: service.prices.map(offerFor),
+        offers,
       },
       faqNode(url, service.faqs),
     );

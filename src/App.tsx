@@ -2,8 +2,10 @@ import { type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Layout } from '@/components/site-chrome';
+import Guide from '@/pages/guide';
 import Home from '@/pages/home';
 import NotFound from '@/pages/not-found';
+import Prices from '@/pages/prices';
 import ServicePage from '@/pages/service';
 import { routePattern } from '@/content/site';
 import {
@@ -36,6 +38,14 @@ function Router() {
           <Route path={routePattern('yardCleanup')}>
             <ServicePage pageKey="yardCleanup" />
           </Route>
+          <Route path={routePattern('petSitting')}>
+            <ServicePage pageKey="petSitting" />
+          </Route>
+          <Route path={routePattern('meetGreet')}>
+            <ServicePage pageKey="meetGreet" />
+          </Route>
+          <Route path={routePattern('prices')} component={Prices} />
+          <Route path={routePattern('guide')} component={Guide} />
           <Route component={NotFound} />
         </Switch>
       </RoutedErrorBoundary>

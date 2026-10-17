@@ -1,23 +1,24 @@
 import { Link } from 'wouter';
 import { ArrowRight, Check } from 'lucide-react';
 import { Paw, ServiceArt } from '@/components/art';
+import { HillsDivider } from '@/components/scene-art';
 import { CallButton, TextButton } from '@/components/cta-buttons';
 import { FaqList } from '@/components/faq-list';
 import { Reveal } from '@/components/reveal';
 import { SERVICE_PAGES } from '@/content/services';
-import { PAGES, PRICING, formatPrice, type ServicePageKey } from '@/content/site';
+import { PAGES, PRICING, formatPrice, type ContentPageKey } from '@/content/site';
 
 const TONES = ['bg-bridge', 'bg-butter', 'bg-card'] as const;
 
-export default function ServicePage({ pageKey }: { pageKey: ServicePageKey }) {
+export default function ServicePage({ pageKey }: { pageKey: ContentPageKey }) {
   const meta = PAGES[pageKey];
   const c = SERVICE_PAGES[pageKey];
 
   return (
     <>
       {/* hero */}
-      <section className="relative overflow-hidden border-b-[2.5px] border-ink bg-bridge" data-testid="section-service-hero">
-        <div className="wrap grid items-center gap-8 py-10 md:py-16 lg:grid-cols-12">
+      <section className="relative overflow-hidden bg-mint" data-testid="section-service-hero">
+        <div className="wrap relative z-10 grid items-center gap-8 pb-20 pt-10 md:pb-28 md:pt-16 lg:grid-cols-12">
           <div className="lg:col-span-8">
             <nav aria-label="Breadcrumb" className="mb-4 text-sm font-bold">
               <ol className="flex flex-wrap items-center gap-2">
@@ -37,8 +38,13 @@ export default function ServicePage({ pageKey }: { pageKey: ServicePageKey }) {
               {c.intro}
             </p>
             <ul className="mt-5 flex flex-wrap gap-2.5">
+              {c.prices.length === 0 ? (
+                <li className="rounded-full border-[2.5px] border-ink bg-bridge px-4 py-1.5 font-bold" data-testid="chip-price-free">
+                  <span className="font-display text-xl font-extrabold">Free</span> &middot; Meet &amp; greet
+                </li>
+              ) : null}
               {c.prices.map((k) => (
-                <li key={k} className="rounded-full border-[2.5px] border-ink bg-butter px-4 py-1.5 font-bold" data-testid={`chip-price-${k}`}>
+                <li key={k} className="rounded-full border-[2.5px] border-ink bg-bridge px-4 py-1.5 font-bold" data-testid={`chip-price-${k}`}>
                   <span className="font-display text-xl font-extrabold">
                     {formatPrice(PRICING[k].price)}
                   </span>{' '}
@@ -57,6 +63,8 @@ export default function ServicePage({ pageKey }: { pageKey: ServicePageKey }) {
             </div>
           </div>
         </div>
+        <HillsDivider className="absolute inset-x-0 bottom-0 z-0 h-16 w-full md:h-24" />
+        <span className="absolute inset-x-0 bottom-0 z-0 h-[2.5px] bg-ink" aria-hidden="true" />
       </section>
 
       {/* included: ledger */}

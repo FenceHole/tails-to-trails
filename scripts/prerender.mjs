@@ -33,16 +33,18 @@ async function fontPreloadTags() {
   } catch {
     return [];
   }
-  const latin = files
-    .filter(
-      (name) =>
-        name.endsWith('.woff2') &&
-        /-latin-/.test(name) &&
-        !/-latin-ext-/.test(name) &&
-        !/italic/.test(name),
-    )
-    .sort()
-    .slice(0, 4);
+  // The display, body and script faces used above the fold: one file each.
+  const latin = ['bricolage-grotesque', 'figtree', 'marck-script'].flatMap((family) =>
+    files
+      .filter(
+        (name) =>
+          name.startsWith(`${family}-latin-`) &&
+          name.endsWith('.woff2') &&
+          !/italic|latin-ext/.test(name),
+      )
+      .sort()
+      .slice(0, 1),
+  );
   return latin.map(
     (name) =>
       `<link rel="preload" href="${base}assets/${name}" as="font" type="font/woff2" crossorigin>`,
@@ -56,7 +58,7 @@ function requireMarker(template, marker) {
 }
 
 async function main() {
-  const { render, ROUTES, NOT_FOUND_PATH, SITE_URL } = await loadServerEntry();
+  const { render, ROUTES, NOT_FOUND_PATH, SITE_URL, buildLlmsTxt } = await loadServerEntry();
 
   const rawTemplate = await readFile(path.join(clientDir, 'index.html'), 'utf8');
   requireMarker(rawTemplate, '<!--app-head-->');
@@ -100,10 +102,11 @@ async function main() {
   await writeFile(path.join(clientDir, '404.html'), buildPage(NOT_FOUND_PATH, '*'));
   console.log('prerendered 404.html');
 
+  const lastmod = new Date().toISOString().slice(0, 10);
   const sitemap = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...ROUTES.map((route) => `  <url><loc>${SITE_URL}${route}</loc></url>`),
+    ...ROUTES.map((route) => `  <url><loc>${SITE_URL}${route}</loc><lastmod>${lastmod}</lastmod></url>`),
     '</urlset>',
     '',
   ].join('\n');
@@ -118,7 +121,9 @@ async function main() {
   ].join('\n');
   await writeFile(path.join(clientDir, 'robots.txt'), robots);
 
-  console.log(`sitemap.xml and robots.txt written for ${SITE_URL}`);
+  await writeFile(path.join(clientDir, 'llms.txt'), buildLlmsTxt());
+
+  console.log(`sitemap.xml, robots.txt and llms.txt written for ${SITE_URL}`);
 }
 
 main().catch((error) => {

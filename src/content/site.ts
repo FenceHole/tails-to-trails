@@ -49,15 +49,18 @@ export const DEFAULT_SMS_BODY =
 /* Multi-pet discounts, holiday rates and travel fees are NOT known.    */
 /* ------------------------------------------------------------------ */
 
-export type PageKey =
-  | 'home'
+/** Pages that carry a price list and sit in the services menu. */
+export type ServicePageKey =
   | 'dogWalking'
   | 'packWalks'
   | 'boarding'
   | 'catSitting'
   | 'yardCleanup';
 
-export type ServicePageKey = Exclude<PageKey, 'home'>;
+/** Pages built from ServicePageContent (the five services plus two overview pages). */
+export type ContentPageKey = ServicePageKey | 'petSitting' | 'meetGreet';
+
+export type PageKey = 'home' | ContentPageKey | 'prices' | 'guide';
 
 export type PriceUnit = 'walk' | 'night' | 'visit';
 
@@ -212,7 +215,51 @@ export const PAGES = {
     description:
       'Regular pet waste and yard clean up in Pittsburgh for $30 a visit. Jennifer handles the messy part. Call or text 412-709-0057.',
   },
+  petSitting: {
+    key: 'petSitting',
+    path: '/pet-sitting-pittsburgh/',
+    navLabel: 'Pet Sitting',
+    h1: 'Pet Sitting in Pittsburgh for Dogs and Cats',
+    title: 'Pet Sitter in Pittsburgh, PA | Dogs & Cats | Tails to Trails',
+    description:
+      'Pittsburgh pet sitting from Jennifer: cat sitting visits at $15, in-home dog boarding at $30 a night and cat boarding at $20, with photo updates. Free meet & greet.',
+  },
+  meetGreet: {
+    key: 'meetGreet',
+    path: '/free-meet-and-greet/',
+    navLabel: 'Free Meet & Greet',
+    h1: 'Free Meet & Greet with a Pittsburgh Dog Walker and Pet Sitter',
+    title: 'Free Meet & Greet | Pittsburgh Dog Walker | Tails to Trails',
+    description:
+      'Meet Jennifer before you book. A free, no-pressure introduction for Pittsburgh dog walking, pet sitting and boarding. Call or text 412-709-0057 to set it up.',
+  },
+  prices: {
+    key: 'prices',
+    path: '/pittsburgh-pet-care-prices/',
+    navLabel: 'Prices',
+    h1: 'Pittsburgh Dog Walking and Pet Sitting Prices',
+    title: 'Pittsburgh Dog Walking & Pet Sitting Prices | Tails to Trails',
+    description:
+      'Posted prices: dog walks $15, pack walks $20, dog boarding $30 a night, cat boarding $20, cat visits $15, yard clean up $30. Free meet & greet. 412-709-0057.',
+  },
+  guide: {
+    key: 'guide',
+    path: '/pittsburgh-pet-care-guide/',
+    navLabel: 'Pet Care Guide',
+    h1: 'A Pittsburgh Pet Care Guide: Hills, Salt, Heat and Fireworks',
+    title: 'Pittsburgh Pet Care Guide for Dog & Cat Owners | Tails to Trails',
+    description:
+      'Practical tips for Pittsburgh pets: winter salt and ice, hot pavement, steep hills, fireworks nights and leaving a cat at home. From a local dog walker and pet sitter.',
+  },
 } as const satisfies Record<PageKey, PageMeta>;
+
+/** More pages for the footer, after the five services. */
+export const MORE_NAV: readonly PageMeta[] = [
+  PAGES.petSitting,
+  PAGES.meetGreet,
+  PAGES.prices,
+  PAGES.guide,
+];
 
 /** Top navigation / footer order for the five service pages. */
 export const SERVICE_NAV: readonly PageMeta[] = [
@@ -298,10 +345,10 @@ export interface FaqItem {
 }
 
 export interface ServicePageContent {
-  key: ServicePageKey;
+  key: ContentPageKey;
   /** Plain-language intro shown directly under the H1. */
   intro: string;
-  /** Prices to feature on the page. Look numbers up in PRICING. */
+  /** Prices to feature on the page (may be empty). Look numbers up in PRICING. */
   prices: readonly PriceKey[];
   /** Keyworded H2s for each block. Render these verbatim. */
   headings: {

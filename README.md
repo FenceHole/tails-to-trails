@@ -14,6 +14,10 @@ Built with React, Vite and Tailwind CSS. At build time every page is rendered to
 | `/dog-boarding-pittsburgh/` | Dog boarding and sitting |
 | `/cat-sitting-pittsburgh/` | Cat sitting |
 | `/yard-cleanup-pittsburgh/` | Yard clean up |
+| `/pet-sitting-pittsburgh/` | Pet sitting |
+| `/free-meet-and-greet/` | Free meet & greet |
+| `/pittsburgh-pet-care-prices/` | Prices |
+| `/pittsburgh-pet-care-guide/` | Pet care guide |
 
 Any other URL gets `404.html`.
 
@@ -33,6 +37,7 @@ npm run typecheck
 - `src/content/services.ts`: the copy and FAQ for each service page.
 - `src/content/faqs.ts`: the home page FAQ. It also feeds the FAQ structured data.
 - `public/og-image.png`: the picture shown when the site is shared. It is a fixed image with the headline and phone number baked in, so replace it if either changes.
+- `src/components/trailhead-hero.tsx`, `signpost.tsx`, `scene-art.tsx`: the flyer-style home hero (swinging signs, parallax hills, dog and cat). Sign prices come from `site.ts`.
 
 Only add facts the owner has published. Reviews, ratings, neighborhoods, hours, certifications and years in business are left out until they are confirmed.
 

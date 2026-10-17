@@ -3,7 +3,7 @@ import { Link, useLocation } from 'wouter';
 import { Menu, X } from 'lucide-react';
 import { LogoMark, Paw } from '@/components/art';
 import { CallButton, TextButton } from '@/components/cta-buttons';
-import { BUSINESS, PAGES, SERVICE_NAV, TEL_HREF } from '@/content/site';
+import { BUSINESS, MORE_NAV, PAGES, SERVICE_NAV, TEL_HREF } from '@/content/site';
 
 function norm(p: string): string {
   return p.length > 1 ? p.replace(/\/$/, '') : p;
@@ -21,15 +21,13 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b-[2.5px] border-ink bg-butter/95 backdrop-blur">
       <div className="wrap flex h-[4.25rem] items-center justify-between gap-3">
-        <Link href={PAGES.home.path} className="group flex min-h-11 items-center gap-2.5" data-testid="link-logo">
+        <Link href={PAGES.home.path} className="group flex min-h-11 shrink-0 items-center gap-2.5" data-testid="link-logo">
           <LogoMark className="h-10 w-10 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110" />
-          <span className="font-display text-xl font-extrabold leading-none tracking-tight">
-            Tails to Trails
-          </span>
+          <span className="whitespace-nowrap font-script text-[1.65rem] leading-none text-plum">Tails to Trails</span>
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
-          {SERVICE_NAV.map((p) => {
+        <nav aria-label="Main" className="hidden items-center gap-1 xl:flex">
+          {[...SERVICE_NAV, PAGES.prices].map((p) => {
             const active = norm(p.path) === current;
             return (
               <Link
@@ -37,7 +35,7 @@ export function Header() {
                 href={p.path}
                 aria-current={active ? 'page' : undefined}
                 data-testid={`link-nav-${p.key}`}
-                className={`relative flex min-h-11 items-center rounded-full px-3.5 font-bold transition-colors hover:bg-bridge ${
+                className={`relative flex min-h-11 items-center whitespace-nowrap rounded-full px-3.5 font-bold transition-colors hover:bg-bridge ${
                   active ? 'bg-ink text-bridge hover:bg-ink' : ''
                 }`}
               >
@@ -48,10 +46,10 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <CallButton small className="hidden sm:inline-flex" testId="button-call-header" />
+          <CallButton small className="hidden whitespace-nowrap sm:inline-flex" testId="button-call-header" />
           <button
             type="button"
-            className="flex h-11 w-11 items-center justify-center rounded-full border-[2.5px] border-ink bg-bridge lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full border-[2.5px] border-ink bg-bridge xl:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
@@ -64,14 +62,14 @@ export function Header() {
       </div>
 
       {open ? (
-        <nav id="mobile-menu" aria-label="Mobile" className="border-t-[2.5px] border-ink bg-bridge lg:hidden">
+        <nav id="mobile-menu" aria-label="Mobile" className="border-t-[2.5px] border-ink bg-bridge xl:hidden">
           <ul className="wrap flex flex-col py-3">
             <li>
               <Link href={PAGES.home.path} className="flex min-h-12 items-center font-display text-2xl font-extrabold" data-testid="link-mobile-home">
                 Home
               </Link>
             </li>
-            {SERVICE_NAV.map((p) => (
+            {[...SERVICE_NAV, PAGES.petSitting, PAGES.meetGreet, PAGES.prices, PAGES.guide].map((p) => (
               <li key={p.key}>
                 <Link
                   href={p.path}
@@ -108,7 +106,7 @@ export function Footer() {
         <div className="md:col-span-5">
           <div className="flex items-center gap-3">
             <LogoMark className="h-12 w-12" />
-            <p className="font-display text-3xl font-extrabold tracking-tight">{BUSINESS.name}</p>
+            <p className="font-script text-4xl leading-none text-bridge">{BUSINESS.legalName}</p>
           </div>
           <p className="mt-4 max-w-sm text-butter/80">
             {BUSINESS.descriptor}. One person, one phone number, and a dog walker in Pittsburgh who answers it.
@@ -123,8 +121,8 @@ export function Footer() {
         </div>
         <nav aria-label="Services" className="md:col-span-4">
           <h2 className="text-lg text-bridge">Pet care in Pittsburgh</h2>
-          <ul className="mt-3">
-            {SERVICE_NAV.map((p) => (
+          <ul className="mt-3 grid grid-cols-2 gap-x-4">
+            {[...SERVICE_NAV, ...MORE_NAV].map((p) => (
               <li key={p.key}>
                 <Link href={p.path} className="flex min-h-11 items-center hover:text-bridge hover:underline" data-testid={`link-footer-${p.key}`}>
                   {p.navLabel}

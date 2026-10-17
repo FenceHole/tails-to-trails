@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { WalkingDog } from '@/components/art';
 
+/** Fallback start; the real one is just under the hero (see measure). */
 const Y_START = 640;
 /** Half-height of the swoop that carries the trail from one gutter to the other. */
 const SWOOP = 110;
@@ -9,6 +10,8 @@ type Pt = { x: number; y: number };
 interface Geo {
   w: number;
   h: number;
+  /** Page offset where the trail begins, just below the hero scene. */
+  yStart: number;
   /** Page offsets of the sections the trail crosses over to the other side at. */
   crosses: number[];
 }
@@ -29,12 +32,12 @@ function curve(pts: Pt[]): string {
  * other only inside the empty padding between two sections, so it never runs
  * through text. Narrow screens: a single wiggle down the left edge.
  */
-function buildPath({ w, h, crosses }: Geo): { d: string; yEnd: number } {
+function buildPath({ w, h, crosses, yStart }: Geo): { d: string; yEnd: number } {
   if (w < 1280) {
-    const yEnd = Math.max(Y_START + 600, h - 380);
+    const yEnd = Math.max(yStart + 600, h - 380);
     const pts: Pt[] = [];
     let i = 0;
-    for (let y = Y_START; y < yEnd; y += 380) {
+    for (let y = yStart; y < yEnd; y += 380) {
       pts.push({ x: i % 2 === 0 ? 20 : 34, y });
       i += 1;
     }
@@ -46,9 +49,9 @@ function buildPath({ w, h, crosses }: Geo): { d: string; yEnd: number } {
   const left = Math.max(44, Math.round(gutter / 2));
   const right = w - left;
   const wobble = gutter >= 110 ? 24 : 12;
-  const pts: Pt[] = [{ x: left, y: Y_START }];
+  const pts: Pt[] = [{ x: left, y: yStart }];
   let side = left;
-  let y = Y_START;
+  let y = yStart;
 
   /** Wander down the current gutter to `to`, drifting a little for a hand-drawn feel. */
   const run = (to: number) => {
@@ -77,6 +80,7 @@ function buildPath({ w, h, crosses }: Geo): { d: string; yEnd: number } {
 function sameGeo(a: Geo, b: Geo): boolean {
   return (
     a.w === b.w &&
+    Math.abs(a.yStart - b.yStart) < 6 &&
     Math.abs(a.h - b.h) < 6 &&
     a.crosses.length === b.crosses.length &&
     a.crosses.every((c, i) => Math.abs(c - b.crosses[i]) < 6)
@@ -98,6 +102,10 @@ export function TrailWrap({ children }: { children: ReactNode }) {
       const next: Geo = {
         w: el.offsetWidth,
         h: el.offsetHeight,
+        yStart: (() => {
+          const hero = el.querySelector<HTMLElement>(':scope > .hero');
+          return hero ? hero.offsetTop + hero.offsetHeight + 150 : Y_START;
+        })(),
         crosses: Array.from(el.querySelectorAll<HTMLElement>(':scope > [data-trail-cross]')).map((s) => s.offsetTop),
       };
       setGeo((g) => (g && sameGeo(g, next) ? g : next));
@@ -111,6 +119,7 @@ export function TrailWrap({ children }: { children: ReactNode }) {
   const built = useMemo(() => (geo ? buildPath(geo) : null), [geo]);
   const d = built?.d ?? '';
   const yEnd = built?.yEnd ?? 0;
+  const yStart = geo?.yStart ?? Y_START;
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -128,7 +137,7 @@ export function TrailWrap({ children }: { children: ReactNode }) {
     const update = () => {
       raf = 0;
       const top = wrap.getBoundingClientRect().top + window.scrollY;
-      const raw = (window.scrollY + window.innerHeight * 0.6 - top - Y_START) / (yEnd - Y_START);
+      const raw = (window.scrollY + window.innerHeight * 0.6 - top - yStart) / (yEnd - yStart);
       const p = reduced ? 1 : Math.min(1, Math.max(0, raw));
       path.style.strokeDashoffset = `${len * (1 - p)}`;
       const at = p * len;
@@ -157,7 +166,7 @@ export function TrailWrap({ children }: { children: ReactNode }) {
       window.cancelAnimationFrame(raf);
       window.clearTimeout(timer);
     };
-  }, [d, yEnd]);
+  }, [d, yEnd, yStart]);
 
   return (
     <div ref={wrapRef} className="trail-pad relative">
@@ -165,9 +174,9 @@ export function TrailWrap({ children }: { children: ReactNode }) {
       {geo && d ? (
         <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden" aria-hidden="true" data-testid="trail-layer">
           <svg width={geo.w} height={geo.h} viewBox={`0 0 ${geo.w} ${geo.h}`} className="absolute inset-0">
-            <path d={d} fill="none" stroke="hsl(45 100% 93%)" strokeWidth="11" strokeLinecap="round" opacity="0.55" />
+            <path d={d} fill="none" stroke="hsl(30 28% 63%)" strokeWidth="11" strokeLinecap="round" opacity="0.7" />
             <path d={d} fill="none" stroke="hsl(258 22% 10%)" strokeWidth="2" strokeLinecap="round" strokeDasharray="2 10" opacity="0.5" />
-            <path ref={pathRef} d={d} fill="none" stroke="hsl(258 22% 10%)" strokeWidth="5" strokeLinecap="round" />
+            <path ref={pathRef} d={d} fill="none" stroke="hsl(281 52% 36%)" strokeWidth="5" strokeLinecap="round" />
           </svg>
           <div ref={dogRef} className="absolute left-0 top-0 w-12 will-change-transform xl:w-[84px]">
             <div ref={flipRef}>

@@ -1,7 +1,6 @@
 import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
 import {
-  HeroScene,
   House,
   Key,
   Paw,
@@ -12,9 +11,13 @@ import {
 } from '@/components/art';
 import { CallButton, TextButton } from '@/components/cta-buttons';
 import { FaqList } from '@/components/faq-list';
+import { FetchMeadow } from '@/components/fetch-meadow';
 import { PlanBuilder } from '@/components/plan-builder';
 import { Reveal } from '@/components/reveal';
 import { SampleUpdate } from '@/components/sample-update';
+import { Landscape, WalkerAndDog } from '@/components/scene-art';
+import { Tilt } from '@/components/tilt';
+import { TrailheadHero } from '@/components/trailhead-hero';
 import { TrailWrap } from '@/components/trail';
 import { HOME_FAQS } from '@/content/faqs';
 import {
@@ -65,37 +68,7 @@ export default function Home() {
   return (
     <TrailWrap>
       {/* 1. HERO */}
-      <section className="hero relative overflow-hidden bg-bridge" data-testid="section-hero">
-        <div className="wrap relative z-10 grid gap-6 pt-7 md:pt-12 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <h1 className="text-[2.6rem] leading-[0.95] sm:text-6xl md:text-7xl xl:text-[5.4rem]" data-testid="text-h1">
-              Dog Walking <span className="whitespace-nowrap">&amp; Pet Sitting</span> in{' '}
-              <span className="relative inline-block -rotate-2 rounded-xl bg-ink px-3 pb-1 text-bridge shadow-[5px_5px_0_hsl(var(--river))]">
-                Pittsburgh
-              </span>
-            </h1>
-            <p className="mt-5 max-w-xl text-lg font-medium leading-snug md:text-xl">
-              Your dog is staring at the door. Jennifer walks, sits, boards and redds up yards around Pittsburgh, with
-              a free meet &amp; greet first and flat prices from {formatPrice(PRICING.soloWalk.price)}.
-            </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <CallButton variant="ink" className="w-full sm:w-auto" testId="button-call-hero" />
-              <TextButton variant="paper" label="Text Jennifer" className="w-full sm:w-auto" testId="button-text-hero" />
-            </div>
-          </div>
-          <div className="relative hidden lg:col-span-5 lg:block">
-            <div className="wobble absolute right-4 top-2 z-10 flex h-36 w-36 items-center justify-center rounded-full border-[3px] border-ink bg-butter p-4 text-center font-display text-xl font-extrabold leading-tight shadow-[5px_5px_0_hsl(var(--ink))]">
-              Free meet &amp; greet
-            </div>
-            <SittingDog className="absolute -bottom-2 left-6 z-10 h-[21rem] w-auto" color="tan" />
-            <SittingCat className="absolute -bottom-2 right-0 z-10 h-44 w-auto" />
-          </div>
-        </div>
-        <div className="relative mt-4 h-[11rem] sm:h-[14rem] lg:-mt-24 lg:h-[19rem]">
-          <HeroScene className="absolute inset-0 h-full w-full" />
-          <SittingDog className="absolute bottom-[3.2rem] right-3 h-24 w-auto sm:h-32 lg:hidden" color="tan" />
-        </div>
-      </section>
+      <TrailheadHero />
 
       {/* 2. TICKER */}
       <section aria-label="Why people trust Tails to Trails" className="on-dark overflow-hidden border-y-[2.5px] border-ink bg-ink py-3.5 text-butter">
@@ -128,6 +101,7 @@ export default function Home() {
 
           <div className="mt-10 grid gap-5 lg:grid-cols-12">
             <Reveal variant="left" className="lg:col-span-7">
+              <Tilt className="h-full">
               <Link href={PAGES.dogWalking.path} className="group relative flex h-full gap-4 min-h-[18rem] flex-col justify-between overflow-hidden rounded-3xl border-[2.5px] border-ink bg-bridge p-6 transition-transform hover:-rotate-1 md:p-8" data-testid="tile-dogWalking">
                 <div className="max-w-sm">
                   <h3 className="text-3xl md:text-4xl">Dog walking</h3>
@@ -145,10 +119,12 @@ export default function Home() {
                 </div>
                 <WalkingDog className="pointer-events-none order-first -mb-2 w-36 self-end transition-transform duration-500 group-hover:translate-x-4 sm:absolute sm:-top-2 sm:right-2 sm:order-none sm:mb-0 sm:w-48 md:w-64" color="tan" />
               </Link>
+              </Tilt>
             </Reveal>
 
             <Reveal variant="right" delay={100} className="lg:col-span-5">
-              <Link href={PAGES.packWalks.path} className="group relative flex h-full gap-4 min-h-[18rem] flex-col justify-between overflow-hidden rounded-3xl border-[2.5px] border-ink bg-river p-6 text-butter transition-transform hover:rotate-1 md:p-8" data-testid="tile-packWalks">
+              <Tilt className="h-full">
+              <Link href={PAGES.packWalks.path} className="group relative flex h-full gap-4 min-h-[18rem] flex-col justify-between overflow-hidden rounded-3xl border-[2.5px] border-ink bg-pine p-6 text-butter transition-transform hover:rotate-1 md:p-8" data-testid="tile-packWalks">
                 <div>
                   <h3 className="text-3xl md:text-4xl">Pack walks</h3>
                   <p className="mt-2 max-w-[16rem] text-butter/90">A 60-minute group walk for socializing and burning off the zoomies.</p>
@@ -165,9 +141,11 @@ export default function Home() {
                 </div>
                 <span className="sr-only">See pack walks</span>
               </Link>
+              </Tilt>
             </Reveal>
 
             <Reveal variant="pop" className="lg:col-span-5">
+              <Tilt className="h-full">
               <Link href={PAGES.boarding.path} className="group relative flex h-full gap-4 min-h-[17rem] flex-col justify-between overflow-hidden rounded-3xl border-[2.5px] border-ink bg-card p-6 transition-transform hover:-rotate-1 md:p-8" data-testid="tile-boarding">
                 <div className="max-w-[14rem]">
                   <h3 className="text-3xl md:text-4xl">Dog boarding</h3>
@@ -185,9 +163,11 @@ export default function Home() {
                 <House className="pointer-events-none order-first -mb-2 w-24 self-end transition-transform group-hover:-translate-y-2 sm:absolute sm:right-3 sm:top-4 sm:order-none sm:mb-0 sm:w-32 md:w-40" />
                 <span className="sr-only">See dog boarding and sitting</span>
               </Link>
+              </Tilt>
             </Reveal>
 
             <Reveal variant="pop" delay={100} className="lg:col-span-4">
+              <Tilt className="h-full">
               <Link href={PAGES.catSitting.path} className="group relative flex h-full gap-4 min-h-[17rem] flex-col justify-between overflow-hidden rounded-3xl border-[2.5px] border-ink bg-ink p-6 text-butter transition-transform hover:rotate-1" data-testid="tile-catSitting">
                 <div className="max-w-[10rem]">
                   <h3 className="text-3xl">Cat sitting</h3>
@@ -199,9 +179,11 @@ export default function Home() {
                 <SittingCat className="pointer-events-none absolute -right-1 top-3 w-28 transition-transform group-hover:scale-110" />
                 <span className="sr-only">See cat sitting</span>
               </Link>
+              </Tilt>
             </Reveal>
 
             <Reveal variant="right" delay={200} className="lg:col-span-3">
+              <Tilt className="h-full">
               <Link href={PAGES.yardCleanup.path} className="group relative flex h-full gap-4 min-h-[17rem] flex-col justify-between overflow-hidden rounded-3xl border-[2.5px] border-ink bg-tomato p-6 text-white transition-transform hover:-rotate-2" data-testid="tile-yardCleanup">
                 <div>
                   <h3 className="text-3xl">Yard clean up</h3>
@@ -216,10 +198,13 @@ export default function Home() {
                 </div>
                 <span className="sr-only">See yard clean up</span>
               </Link>
+              </Tilt>
             </Reveal>
           </div>
         </div>
       </section>
+
+      <FetchMeadow />
 
       {/* 4. PRICE BOARD */}
       <section className="on-dark section bg-ink text-butter" data-trail-cross data-testid="section-prices">
@@ -234,6 +219,9 @@ export default function Home() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <TextButton variant="bridge" label="Text to book a meet & greet" testId="button-text-prices" />
+              <Link href={PAGES.prices.path} className="btn btn-paper" data-testid="link-all-prices">
+                Full price list <ArrowRight className="h-5 w-5" aria-hidden="true" />
+              </Link>
             </div>
           </div>
           <Reveal variant="pop" className="lg:col-span-7">
@@ -311,7 +299,15 @@ export default function Home() {
           </Reveal>
           <p className="mt-4 max-w-2xl text-lg text-foreground/80">
             Steep hills, yellow bridges, an incline or two. Tails to Trails is a Pittsburgh business, and Jennifer
-            talks like one.
+            talks like one. New to the city with a pet? Read the{' '}
+            <Link href={PAGES.guide.path} className="font-bold underline decoration-2 underline-offset-4 hover:no-underline" data-testid="link-home-guide">
+              Pittsburgh pet care guide
+            </Link>
+            , or see{' '}
+            <Link href={PAGES.petSitting.path} className="font-bold underline decoration-2 underline-offset-4 hover:no-underline" data-testid="link-home-petsitting">
+              pet sitting in Pittsburgh
+            </Link>
+            .
           </p>
           <div className="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-2">
             {SLANG.map((s, i) => (
@@ -333,7 +329,7 @@ export default function Home() {
       </section>
 
       {/* 8. ABOUT */}
-      <section className="on-dark section overflow-hidden bg-river text-butter" data-trail-cross data-testid="section-about">
+      <section className="on-dark section overflow-hidden bg-plum text-butter" data-trail-cross data-testid="section-about">
         <div className="wrap grid items-center gap-12 lg:grid-cols-12">
           <Reveal variant="pop" className="lg:col-span-5">
             <div className="relative mx-auto max-w-sm">
@@ -389,9 +385,10 @@ export default function Home() {
       </section>
 
       {/* 10. FINAL CTA */}
-      <section className="relative overflow-hidden border-t-[2.5px] border-ink bg-bridge pb-16 pt-16 md:pt-24" data-trail-cross data-testid="section-cta">
-        <div className="wrap relative z-10 text-center">
-          <h2 className="mx-auto max-w-4xl text-5xl md:text-7xl">Ready for a free meet &amp; greet?</h2>
+      <section className="relative overflow-hidden border-t-[2.5px] border-ink bg-bridge pt-16 md:pt-24" data-trail-cross data-testid="section-cta">
+        <div className="wrap relative z-10 pb-56 text-center sm:pb-64 md:pb-72">
+          <p className="font-script text-4xl leading-none text-plum md:text-5xl">For a free meet and greet</p>
+          <h2 className="mx-auto mt-2 max-w-4xl text-5xl md:text-7xl">Ready for a free meet &amp; greet?</h2>
           <p className="mx-auto mt-5 max-w-xl text-lg font-medium">
             Call or text Jennifer and tell her about your dog, your cat, or your yard. No forms, just a real
             conversation.
@@ -400,12 +397,19 @@ export default function Home() {
             <CallButton variant="ink" testId="button-call-final" />
             <TextButton variant="paper" testId="button-text-final" />
           </div>
+          <p className="mt-6 flex flex-wrap justify-center gap-x-6 text-sm font-bold">
+            <Link href={PAGES.meetGreet.path} className="inline-flex min-h-11 items-center underline decoration-2 underline-offset-4 hover:no-underline" data-testid="link-cta-meet-greet">
+              What happens at a meet &amp; greet
+            </Link>
+            <Link href={PAGES.guide.path} className="inline-flex min-h-11 items-center underline decoration-2 underline-offset-4 hover:no-underline" data-testid="link-cta-guide">
+              Pittsburgh pet care guide
+            </Link>
+          </p>
         </div>
-        <div className="relative mt-10 flex justify-center gap-2" aria-hidden="true">
-          <SittingDog className="h-28 w-auto" color="night" />
-          <SittingCat className="h-24 w-auto" />
-          <SittingDog className="h-32 w-auto" color="cream" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[14rem] sm:h-[17rem]">
+          <Landscape />
         </div>
+        <WalkerAndDog className="pointer-events-none absolute bottom-4 left-[6%] z-[2] h-28 w-auto sm:h-40 lg:left-[14%]" />
       </section>
     </TrailWrap>
   );
